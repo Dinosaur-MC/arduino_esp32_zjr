@@ -1,0 +1,41 @@
+#pragma once
+
+namespace events {
+
+// 全局事件ID
+enum Event {
+    /* 事件循环 */
+    EVENT_LOOP_INITIALIZED = 0,  // 循环初始化
+    EVENT_LOOP_DEINITIALIZED,    // 销毁
+    EVENT_LOOP_TEST_EVENT,       // 测试事件
+    /* 按钮事件 */
+    BUTTON_TOGGLE_EVENT,
+    BUTTON_RAISE_EVENT,
+    BUTTON_FALL_EVENT,
+    /* 传感器事件 */
+    SENSOR_TOUCH_EVENT,
+    SENSOR_MULTI_TOUCH_EVENT,
+    /* 玩家事件 */
+    EVENT_PLAYER_SCORE,
+    EVENT_PLAYER_WIN,
+    EVENT_PLAYER_DRAW,
+    /* 计时器事件 */
+    EVENT_TIMER_TICK,
+    EVENT_TIMER_TIMEOUT,
+    /* 比赛事件 */
+    EVENT_COMPETITION_INITED,
+    EVENT_COMPETITION_READY,
+    EVENT_COMPETITION_START,
+    EVENT_COMPETITION_PAUSE,
+    EVENT_COMPETITION_RESUME,
+    EVENT_COMPETITION_STOP,
+    EVENT_COMPETITION_RESET,
+    /* LabView API */
+    EVENT_LABVIEW_SEND,
+    EVENT_LABVIEW_RECEIVE,
+    EVENT_LABVIEW_BTN_START,
+    EVENT_LABVIEW_BTN_PAUSE,
+    EVENT_LABVIEW_BTN_RESET,
+};
+
+}  // namespace events

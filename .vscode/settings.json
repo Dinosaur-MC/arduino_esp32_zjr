@@ -1,0 +1,13 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "files.associations": {
+        "pages.json": "jsonc",
+        "manifest.json": "jsonc",
+        "*.h": "cpp",
+        "cinttypes": "cpp",
+        "chrono": "cpp",
+        "algorithm": "cpp",
+        "cmath": "cpp",
+        "ratio": "cpp"
+    }
+}

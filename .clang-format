@@ -1,0 +1,11 @@
+Language: Cpp
+BasedOnStyle: Google
+IndentWidth: 4
+ColumnLimit: 110
+UseTab: Never
+LineEnding: LF
+BreakBeforeBraces: Attach
+AlignConsecutiveAssignments: true
+AlignTrailingComments: true
+AlignAfterOpenBracket: BlockIndent
+AlignOperands: AlignAfterOperator
