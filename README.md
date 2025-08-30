@@ -16,7 +16,7 @@
 
 - 竹节人套件
 - 传感器件
-- RGB LED灯带
+- WS2812B LED灯带（7个灯珠）
 - ESP32 dev module
 - USB数据线
 - USB2TTL
@@ -26,3 +26,23 @@
 
 - VSCode + PlatformIO插件
 - LabVIEW 2018
+
+## 依赖 | Dependency
+
+- roboticsbrno/SmartLeds@^3.1.5
+
+## 引脚定义 | Pin Definition
+
+项目中主要使用的引脚定义如下：
+
+| GPIO | 宏名          | 引脚功能描述                    |
+| ---- | ------------- | ------------------------------- |
+| 25   | PIN_BTN_START | 开始/停止按钮引脚               |
+| 21   | PIN_BTN_PAUSE | 暂停/继续按钮引脚               |
+| 17   | PIN_BTN_RESET | 重置按钮引脚                    |
+| 5    | PIN_PLAYER_A  | 玩家A（红方）传感器引脚         |
+| 23   | PIN_PLAYER_B  | 玩家B（蓝方）传感器引脚         |
+| 19   | PIN_LED       | LED灯带引脚                     |
+| 33   | PIN_DEBUG_BTN | DEBUG按钮引脚，用于串口输出测试 |
+
+注：以上除了LED灯带引脚之外，所有引脚都启用了内置上拉电阻。
