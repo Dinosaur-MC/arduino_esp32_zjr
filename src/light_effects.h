@@ -2,6 +2,8 @@
 
 #include <SmartLeds.h>
 
+/* 异步执行宏 */
+
 #define APPLY_LIGHT_EFFECT(leds, le_func, ...)          \
     do {                                                \
         xTaskCreate(                                    \

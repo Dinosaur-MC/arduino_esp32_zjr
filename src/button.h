@@ -7,7 +7,7 @@
 
 ESP_EVENT_DECLARE_BASE(BUTTON_EVENT_BASE);
 
-// 开关传感器
+// 按钮
 class Button {
    public:
     enum State {
@@ -20,10 +20,12 @@ class Button {
     Button();
     virtual ~Button();
 
-    void begin(uint8_t pin, bool pullup = true);
-    void begin(uint8_t pin, bool pullup, void (*callback)(int32_t, int8_t), uint32_t interval_ms = 10);
-    void end();
-    int32_t read();
+    void begin(uint8_t pin, bool pullup = true);  // 手动管理模式，无事件
+    void begin(
+        uint8_t pin, bool pullup, void (*callback)(int32_t, int8_t), uint32_t interval_ms = 10
+    );               // 事件回调模式
+    void end();      // 停止
+    int32_t read();  // 读取按钮状态
 
    protected:
     static TaskFunction_t _taskfunc;
