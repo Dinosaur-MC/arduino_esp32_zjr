@@ -1,5 +1,9 @@
 # arduino_esp32_zjr - Arduino ESP32 竹节人大作战数字擂台
 
+[![Release Version](https://img.shields.io/github/release/Dinosaur-MC/arduino_esp32_zjr.svg?style=plastic)](https://github.com/Dinosaur-MC/arduino_esp32_zjr/releases/latest)
+[![LICENSE](https://img.shields.io/github/license/Dinosaur-MC/arduino_esp32_zjr)](LICENSE)
+[![Bilibili Link](https://img.shields.io/badge/Bilibili-@他姓廖是宇宙的王-ff69b4.svg)](https://space.bilibili.com/1802840673)
+
 ## 介绍 | Introduction
 
 本项目《竹节人大作战数字擂台》为一个竹节人对战记分系统，基于ESP32开发板和Arduino Framework开发，实现数字化的竹节人对战比赛自动量化记分功能，可根据分数自动裁决胜负并记录。
@@ -24,7 +28,7 @@
 
 ## 软件 | Software
 
-- VSCode + PlatformIO插件
+- VSCode + PlatformIO扩展
 - LabVIEW 2018
 
 ## 依赖 | Dependency
