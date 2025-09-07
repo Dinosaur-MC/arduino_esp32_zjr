@@ -12,10 +12,10 @@ using namespace events;
 #define COMPETITION_TIME_S 30
 
 // 计时器间隔（单位：ms）
-#define TIMER_INTERVAL_MS 1000
+#define TIMER_INTERVAL_MS 200
 // 计时器
 int32_t timer     = 0;
-int32_t pre_timer = COMPETITION_TIME_S;
+int32_t pre_timer = 0;
 
 #define PIN_BTN_START 25  // 开始按钮引脚
 #define PIN_BTN_PAUSE 21  // 暂停按钮引脚
@@ -67,7 +67,7 @@ namespace handler {
 
 // 计时器事件处理
 void timer_tick(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data) {
-    labview::send_i32(labview::Tick, timer);
+    labview::send_i32(labview::Tick, (timer * TIMER_INTERVAL_MS + 999) / 1000);
     if (competition_state == State::Started) {
         le::progress(leds, Rgb{0, 200, 0}, timer, COMPETITION_TIME_S, true);
     }
@@ -143,6 +143,7 @@ void sensor_player_b(int32_t value, int8_t state) {
 void competition(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data) {
     switch (event_id) {
         case EVENT_COMPETITION_INITED: {
+            pre_timer = COMPETITION_TIME_S * 1000 / TIMER_INTERVAL_MS;
             DEBUGSERIAL.println("Competition inited");
         } break;
         case EVENT_COMPETITION_READY: {
@@ -150,12 +151,14 @@ void competition(void *arg, esp_event_base_t event_base, int32_t event_id, void 
             timer             = 3 * 1000 / TIMER_INTERVAL_MS;
             player_a_score    = 0;
             player_b_score    = 0;
+            labview::send_i32(labview::Tick, (timer * TIMER_INTERVAL_MS + 999) / 1000);
             G_APPLY_LIGHT_EFFECT(le::middle_spread(leds, Rgb{200, 200, 0}, 3000));
             DEBUGSERIAL.println("Competition ready");
         } break;
         case EVENT_COMPETITION_START: {
             competition_state = State::Started;
-            timer             = pre_timer * 1000 / TIMER_INTERVAL_MS;
+            timer             = pre_timer;
+            labview::send_i32(labview::Tick, (timer * TIMER_INTERVAL_MS + 999) / 1000);
             player_a.begin(PIN_PLAYER_A, true, handler::sensor_player_a, 100);
             player_b.begin(PIN_PLAYER_B, true, handler::sensor_player_b, 100);
             le::clear(leds);
@@ -174,6 +177,7 @@ void competition(void *arg, esp_event_base_t event_base, int32_t event_id, void 
         case EVENT_COMPETITION_RESUME: {
             competition_state = State::Ready;
             timer             = 3 * 1000 / TIMER_INTERVAL_MS;
+            labview::send_i32(labview::Tick, (timer * TIMER_INTERVAL_MS + 999) / 1000);
             G_APPLY_LIGHT_EFFECT(le::middle_spread(leds, Rgb{200, 200, 0}, 3000));
             DEBUGSERIAL.println("Competition resumed");
         } break;
@@ -181,7 +185,6 @@ void competition(void *arg, esp_event_base_t event_base, int32_t event_id, void 
             competition_state = State::Ended;
             player_a.end();
             player_b.end();
-            pre_timer = COMPETITION_TIME_S;
 
             if (timer == 0) {
                 competition_count++;
@@ -196,13 +199,9 @@ void competition(void *arg, esp_event_base_t event_base, int32_t event_id, void 
                 } else {
                     event::post(EVENT_PLAYER_DRAW);
                 }
-            }
-            labview::send_i32(labview::PlayerAWin, player_a_win);
-            labview::send_i32(labview::PlayerBWin, player_b_win);
-            labview::send_i32(labview::CompetitionCount, competition_count);
-
-            DEBUGSERIAL.println("Competition stopped");
-            if (timer == 0) {
+                labview::send_i32(labview::PlayerAWin, player_a_win);
+                labview::send_i32(labview::PlayerBWin, player_b_win);
+                labview::send_i32(labview::CompetitionCount, competition_count);
                 DEBUGSERIAL.printf(
                     "Player A: %d - %d\nPlayer B: %d - %d\n", player_a_score, player_a_win, player_b_score,
                     player_b_win
@@ -212,6 +211,7 @@ void competition(void *arg, esp_event_base_t event_base, int32_t event_id, void 
                 le::clear(leds);
             }
 
+            DEBUGSERIAL.println("Competition stopped");
             timer = 0;
             event::post(EVENT_COMPETITION_INITED);
         } break;
@@ -219,14 +219,13 @@ void competition(void *arg, esp_event_base_t event_base, int32_t event_id, void 
             player_a.end();
             player_b.end();
             timer             = 0;
-            pre_timer         = COMPETITION_TIME_S;
             competition_state = State::Ended;
             competition_count = 0;
             player_a_win      = 0;
             player_b_win      = 0;
             player_a_score    = 0;
             player_b_score    = 0;
-            labview::send_i32(labview::Tick, timer);
+            labview::send_i32(labview::Tick, 0);
             labview::send_i32(labview::CompetitionCount, competition_count);
             labview::send_i32(labview::CompetitionState, (int32_t)competition_state);
             labview::send_i32(labview::PlayerAWin, player_a_win);
@@ -353,11 +352,11 @@ void setup() {
 // 定时器循环
 void loop() {
     if (timer > 0 && competition_state != State::Paused && competition_state != State::Ended) {
+        delay(TIMER_INTERVAL_MS);
         if (timer > 0) {
             timer--;
             event::post(EVENT_TIMER_TICK, &timer, sizeof(timer));
             if (timer == 0) event::post(EVENT_TIMER_TIMEOUT, NULL, 0);
         }
-        delay(TIMER_INTERVAL_MS);
     }
 }
