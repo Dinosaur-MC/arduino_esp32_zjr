@@ -2,7 +2,7 @@
 
 [![Release Version](https://img.shields.io/github/release/Dinosaur-MC/arduino_esp32_zjr.svg?style=plastic)](https://github.com/Dinosaur-MC/arduino_esp32_zjr/releases/latest)
 [![LICENSE](https://img.shields.io/github/license/Dinosaur-MC/arduino_esp32_zjr)](LICENSE)
-[![Bilibili Link](https://img.shields.io/badge/Bilibili-@他姓廖是宇宙的王-ff69b4.svg)](https://space.bilibili.com/1802840673)
+[![Bilibili Link](https://img.shields.io/badge/Bilibili-BV1wqHnzNE9P-ff69b4.svg)](https://www.bilibili.com/video/BV1wqHnzNE9P)
 
 ## 介绍 | Introduction
 
@@ -28,8 +28,8 @@
 
 ## 软件 | Software
 
-- VSCode + PlatformIO扩展
-- LabVIEW 2018
+- VSCode + PlatformIO 扩展
+- LabVIEW + NI-VISA、NI-Serial 插件
 
 ## 依赖 | Dependency
 
